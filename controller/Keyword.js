@@ -6,7 +6,13 @@ import fs from "fs";
 
 export const createKeyword = async(req, res) => {
     const { word } = req.body;
-
+    const keyword = await Keywords.findOne({
+        where: {
+            hairId: req.params.id,
+            word: word,
+        }
+    });
+    if (keyword) return res.status(404).json({ msg: "Keyword existed" });
     try {
         await Keywords.create({
             hairId: req.params.id,
