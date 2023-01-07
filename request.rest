@@ -1,0 +1,107 @@
+//create a user
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name":"MrA",
+    "email":"mra@gmail.com",
+    "password":"123456",
+    "confPassword":"123456",
+    "role":"user"
+    
+}
+###
+//create a user
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "name":"Mr B",
+    "email":"mrb@gmail.com",
+    "password":"123456",
+    "confPassword":"123456",
+    "role":"designer"
+    
+}
+###
+//get ALL Users
+GET http://localhost:5000/users
+
+###
+//Get Single user
+GET http://localhost:5000/users/26d04274-1ae3-4fe8-bc3d-7725ea07c465
+
+###
+//Update a user
+PATCH  http://localhost:5000/users/26d04274-1ae3-4fe8-bc3d-7725ea07c465
+Content-Type: application/json
+
+{
+    "name":"Minh Thư Update1",
+    "email":"admin@gmail.com",
+    "password":"",
+    "confPassword":"",
+    "role":"designer"
+    
+}
+###
+//Update a user profile picture
+Post  http://localhost:5000/users/upload/26d04274-1ae3-4e8-bc3d-7725ea07c465
+Content-Type: application/json
+
+{
+   
+    "profileImgUrl": "this is link"
+    
+}
+###
+//delete
+DELETE http://localhost:5000/users/cc3af87f-04d7-407f-a512-3b1022c41d95
+
+###
+//login designer
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email":"mrb@gmail.com",
+    "password":"123456"
+    
+}
+###
+//login user
+POST http://localhost:5000/login
+Content-Type: application/json
+
+{
+    "email":"mra@gmail.com",
+    "password":"123456"
+    
+}
+###
+//ME
+Get http://localhost:5000/me
+
+###
+//logout
+DELETE  http://localhost:5000/logOut
+
+###
+//get all hairstyle
+GET http://localhost:5000/hairstyle
+
+###
+//get all hairstyle 1
+GET http://localhost:5000/hairstyle/1
+
+###
+GET http://localhost:5000/comments/1234
+
+//create a bookmark
+POST http://localhost:5000/users
+Content-Type: application/json
+
+{
+    "hairId":"qwe"
+    
+}
