@@ -5,17 +5,22 @@ import argon2 from "argon2";
 import path from "path";
 import fs from "fs";
 
-export const createBookmarks = async (req, res) => {
+export const createBookmarks = async(req, res) => {
+    const user = await Users.findOne({
+        where: {
+            uuid: req.session.userId,
+        }
+    });
     const bookmark = await Bookmarks.findOne({
         where: {
-            ownerId: req.session.userId,
+            ownerId: user.uuid,
             hairId: req.params.id,
         }
     });
     if (!bookmark) {
         try {
             await Bookmarks.create({
-                ownerId: req.session.userId,
+                ownerId: user.uuid,
                 hairId: req.params.id,
             });
             res.status(201).json({ msg: "Mark Successfully" });
@@ -27,7 +32,7 @@ export const createBookmarks = async (req, res) => {
     }
 };
 
-export const deleteBookmarks = async (req, res) => {
+export const deleteBookmarks = async(req, res) => {
     const bookmark = await Bookmarks.findOne({
         where: {
             ownerId: req.session.userId,

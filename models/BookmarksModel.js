@@ -31,8 +31,8 @@ const Bookmarks = db.define(
     }
 );
 
-Users.hasMany(Bookmarks, { foreignKey: 'ownerId', targetKey: 'uuid', constraints: false });
-Bookmarks.belongsTo(Users);
+Users.hasMany(Bookmarks, { foreignKey: 'ownerId', sourceKey: 'uuid', constraints: false });
+Bookmarks.belongsTo(Users, { foreignKey: 'ownerId', targetKey: "uuid", constraints: false });
 Bookmarks.hasOne(HairStyle, { foreignKey: 'hairId', targetKey: 'uuid', constraints: false })
 
 export default Bookmarks;
