@@ -57,7 +57,10 @@ export const Me = async(req, res) => {
         },
         include: [{
             model: Bookmarks,
-
+            include: [{
+                model: HairStyle,
+                attributes: ["uuid", "name", "url1", "url2", "url3", "url4", "designerId", "modelId"],
+            }]
         }]
 
     });
