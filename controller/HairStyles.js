@@ -1,9 +1,11 @@
 import HairStyle from "../models/HairStyleModel.js";
+import Users from "../models/UsersModel.js";
+import Keywords from "../models/KeyworkModel.js";
+import Bookmarks from "../models/BookmarksModel.js";
+import Comments from "../models/CommentModel.js";
 import path from "path";
 import fs from "fs";
-import Users from "../models/UsersModel.js";
 import { Op } from "sequelize"
-import Keywords from "../models/KeyworkModel.js";
 export const getHairStyles = async(req, res) => {
     try {
 
@@ -189,6 +191,21 @@ export const deleteHairStyle = async(req, res) => {
     if (!HairStylei) return res.status(404).json({ msg: "No Data Found" });
 
     try {
+        await Bookmarks.destroy({
+            where: {
+                hairId: req.params.id
+            }
+        });
+        await Comments.destroy({
+            where: {
+                hairId: req.params.id
+            }
+        });
+        await Keywords.destroy({
+            where: {
+                hairId: req.params.id
+            }
+        });
         await HairStylei.destroy({
             where: {
                 uuid: req.params.id
