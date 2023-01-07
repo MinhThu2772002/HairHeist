@@ -171,7 +171,7 @@ export const UpdateProfileImg = async(req, res) => {
     try {
         await user.update({ profileImgUrl: url }, {
             where: {
-                uuid: req.params.id
+                uuid: user.uuid
             }
         });
         res.status(200).json({ msg: "Profile picture Updated Successfuly" });
@@ -194,10 +194,32 @@ export const UpdateLicenseImg = async(req, res) => {
     try {
         await user.update({ licenseImgUrl: url }, {
             where: {
-                uuid: req.session.userId,
+                uuid: user.uuid
             }
         });
         res.status(200).json({ msg: "License Updated Successfuly" });
+    } catch (error) {
+        console.log(error.message);
+    }
+};
+export const UpdateIntroduce = async(req, res) => {
+    const user = await Users.findOne({
+        where: {
+            uuid: req.session.userId,
+        }
+
+    });
+    if (!user) return res.status(404).json({ msg: "Designer not exist" });
+
+
+    const { Introduces } = req.body;
+    try {
+        await user.update({ Introduce: Introduces }, {
+            where: {
+                uuid: user.uuid
+            }
+        });
+        res.status(200).json({ msg: "Introduction Updated Successfuly" });
     } catch (error) {
         console.log(error.message);
     }

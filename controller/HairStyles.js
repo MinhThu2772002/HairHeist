@@ -12,7 +12,8 @@ export const getHairStyles = async(req, res) => {
             include: [{
                 model: Users,
                 attributes: ["name", "email", "profileImgUrl"]
-            }]
+            }],
+
         });
 
         res.json(responses);
@@ -126,6 +127,7 @@ export const saveHairStyle = async(req, res) => {
         }
     });
     const { name, url1, url2, url3, url4, modelId } = req.body;
+    if (!url1) return res.status(404).json({ msg: "Need at least one image for new HairStyle" });
     try {
         await HairStyle.create({
             name: name,
@@ -158,15 +160,6 @@ export const updateHairStyle = async(req, res) => {
     if (url_1 === null) {
         url_1 = HairStylei.url1;
     }
-    if (url_2 === null) {
-        url_2 = HairStylei.url2;
-    }
-    if (url_3 === null) {
-        url_3 = HairStylei.url3;
-    }
-    if (url_4 === null) {
-        url_4 = HairStylei.url4;
-    }
     try {
         await HairStylei.update({
             name: name,
@@ -196,8 +189,6 @@ export const deleteHairStyle = async(req, res) => {
     if (!HairStylei) return res.status(404).json({ msg: "No Data Found" });
 
     try {
-        const filepath = `./public/images/${HairStylei.image}`;
-        fs.unlinkSync(filepath);
         await HairStylei.destroy({
             where: {
                 uuid: req.params.id

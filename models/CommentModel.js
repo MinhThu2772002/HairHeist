@@ -42,6 +42,8 @@ const Comments = db.define(
 
 Users.hasMany(Comments, { foreignKey: 'ownerId', sourcetKey: 'uuid', constraints: false });
 Comments.belongsTo(Users, { foreignKey: 'ownerId', targetKey: "uuid", constraints: false });
-Comments.hasOne(HairStyle, { foreignKey: 'hairId', targetKey: 'uuid', constraints: false })
+
+HairStyle.hasMany(Comments, { foreignKey: 'hairId', sourceKey: 'uuid', constraints: false });
+Comments.belongsTo(HairStyle, { foreignKey: 'hairId', targetKey: "uuid", constraints: false });
 
 export default Comments;
