@@ -6,7 +6,7 @@ import Comments from "../models/CommentModel.js";
 import path from "path";
 import fs from "fs";
 import { Op } from "sequelize"
-export const getHairStyles = async(req, res) => {
+export const getHairStyles = async (req, res) => {
     try {
 
         const responses = await HairStyle.findAll({
@@ -24,7 +24,7 @@ export const getHairStyles = async(req, res) => {
     }
 }
 
-export const getHairStyleById = async(req, res) => {
+export const getHairStyleById = async (req, res) => {
     try {
         const response = await HairStyle.findOne({
             attributes: ["uuid", "name", "url1", "url2", "url3", "url4", "designerId", "modelId"],
@@ -42,22 +42,7 @@ export const getHairStyleById = async(req, res) => {
     }
 }
 
-// export const getHairStyleByKeyword = async(req, res) => {
-//     const { keys = '' } = req.body;
-//     try {
-//         const response = await Keywords.findAll({
-//             attributes: ["hairId", "word"],
-//             where: {
-//                 word: keys
-//             }
-//         });
-//         res.json(response);
-//     } catch (error) {
-//         console.log(error.message);
-//     }
-// }
-
-export const getHairStyleByKeyword = async(req, res) => {
+export const getHairStyleByKeyword = async (req, res) => {
     const { keys = '' } = req.body;
     if (!keys) {
         return res.status(200).json({ msg: "No keywords found !" });
@@ -92,36 +77,7 @@ export const getHairStyleByKeyword = async(req, res) => {
     }
 };
 
-// export const getHairStyleByKeyword = async(req, res) => {
-//     const keys = req.body;    
-//     try {
-
-//             const words = await Keywords.findAll({
-//                 include: [{
-//                     model: HairStyle,
-//                     required: true,
-//                     where: {
-//                         word: keys,
-//                     }
-
-//                 }],
-
-//             });
-//             const response = await HairStyle.findAll({
-//                 where: {
-//                     uuid: words.hairId,
-//                 },
-//             });
-//             res.status(200).json(response);
-//         } catch (error) {
-//             res.status(500).json({ msg: error.message });
-//         }
-
-
-
-// };
-
-export const saveHairStyle = async(req, res) => {
+export const saveHairStyle = async (req, res) => {
     const user = await Users.findOne({
         attributes: ["uuid"],
         where: {
@@ -149,7 +105,7 @@ export const saveHairStyle = async(req, res) => {
 
 }
 
-export const updateHairStyle = async(req, res) => {
+export const updateHairStyle = async (req, res) => {
     const HairStylei = await HairStyle.findOne({
         where: {
             uuid: req.params.id
@@ -182,7 +138,7 @@ export const updateHairStyle = async(req, res) => {
     }
 }
 
-export const deleteHairStyle = async(req, res) => {
+export const deleteHairStyle = async (req, res) => {
     const HairStylei = await HairStyle.findOne({
         where: {
             uuid: req.params.id
