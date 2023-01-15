@@ -3,6 +3,7 @@ import Users from "../models/UsersModel.js";
 import Keywords from "../models/KeyworkModel.js";
 import Bookmarks from "../models/BookmarksModel.js";
 import Comments from "../models/CommentModel.js";
+import Reaction from "../models/ReactionModel.js";
 import argon2 from "argon2";
 import { Op } from "sequelize"
 import path from "path";
@@ -150,6 +151,11 @@ export const deleteUser = async (req, res) => {
         });
         await Comments.destroy({
             where: {
+                ownerId: user.uuid
+            }
+        });
+        await Reaction.destroy({
+            where:{
                 ownerId: user.uuid
             }
         });

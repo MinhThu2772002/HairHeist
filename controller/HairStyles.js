@@ -3,6 +3,7 @@ import Users from "../models/UsersModel.js";
 import Keywords from "../models/KeyworkModel.js";
 import Bookmarks from "../models/BookmarksModel.js";
 import Comments from "../models/CommentModel.js";
+import Reaction from "../models/ReactionModel.js";
 import path from "path";
 import fs from "fs";
 import { Op } from "sequelize"
@@ -155,6 +156,11 @@ export const deleteHairStyle = async (req, res) => {
         await Comments.destroy({
             where: {
                 hairId: req.params.id
+            }
+        });
+        await Reaction.destroy({
+            where:{
+                targetId: req.params.id
             }
         });
         await Keywords.destroy({
