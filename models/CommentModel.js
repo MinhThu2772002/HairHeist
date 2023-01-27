@@ -6,7 +6,14 @@ const { DataTypes } = Sequelize;
 
 const Comments = db.define(
     "Comments", {
-
+        uuid: {
+            type: DataTypes.STRING,
+            defaultValue: DataTypes.UUIDV4,
+            allowNull: false,
+            validate: {
+                notEmpty: true,
+            }
+        },
         hairId: {
             type: DataTypes.STRING,
             allowNull: false,
@@ -33,7 +40,22 @@ const Comments = db.define(
 
             }
         },
-
+        like: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: 0,
+            validate: {
+                notEmpty: true
+            }
+        },
+        dislike: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: 0,
+            validate: {
+                notEmpty: true
+            }
+        },
 
     }, {
         freezeTableName: true,

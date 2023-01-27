@@ -5,6 +5,7 @@ import fs from "fs";
 import { Op } from "sequelize";
 import Users from "../models/UsersModel.js";
 import Comments from "../models/CommentModel.js";
+import Reaction from "../models/ReactionModel.js";
 
 export const getCommentById = async(req, res) => {
     try {
@@ -69,6 +70,11 @@ export const deleteComment = async(req, res) => {
                 hairId: req.params.id,
                 message: message,
             },
+        });
+        await Reaction.destroy({
+            where:{
+                targetId: req.params.id
+            }
         });
         res.status(200).json({ msg: "Delete successfully" });
     } catch (error) {

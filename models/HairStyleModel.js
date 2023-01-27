@@ -68,6 +68,22 @@ const HairStyle = db.define(
 
             }
         },
+        like: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: 0,
+            validate: {
+                notEmpty: true
+            }
+        },
+        dislike: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            defaultValue: 0,
+            validate: {
+                notEmpty: true
+            }
+        },
 
     }, {
         freezeTableName: true,

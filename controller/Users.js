@@ -1,8 +1,14 @@
+import HairStyle from "../models/HairStyleModel.js";
 import Users from "../models/UsersModel.js";
+import Keywords from "../models/KeyworkModel.js";
+import Bookmarks from "../models/BookmarksModel.js";
+import Comments from "../models/CommentModel.js";
+import Reaction from "../models/ReactionModel.js";
 import argon2 from "argon2";
+import { Op } from "sequelize"
 import path from "path";
 import fs from "fs";
-export const getUsers = async(req, res) => {
+export const getUsers = async (req, res) => {
     try {
         const response = await Users.findAll({
             attributes: ["uuid", "name", "email", "role"],
@@ -13,7 +19,7 @@ export const getUsers = async(req, res) => {
     }
 };
 
-export const getUserById = async(req, res) => {
+export const getUserById = async (req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.params.id,
@@ -54,7 +60,7 @@ export const getUserById = async(req, res) => {
 
 };
 
-export const createUser = async(req, res) => {
+export const createUser = async (req, res) => {
 
     const { name, email, password, confPassword, role } = req.body;
     const user = await Users.findOne({
@@ -80,7 +86,7 @@ export const createUser = async(req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
-export const updateUser = async(req, res) => {
+export const updateUser = async (req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -115,17 +121,52 @@ export const updateUser = async(req, res) => {
     }
 };
 
-export const deleteUser = async(req, res) => {
+export const deleteUser = async (req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.params.id,
+            uuid: req.session.userId
         }
     });
     if (!user) return res.status(404).json({ msg: "User isn't exist" });
+    const HairStylei = await HairStyle.findAll({
+        attributes: ["uuid"],
+        where: {
+            designerId: user.uuid,
+        }
+    });
+    const hairIds = HairStylei.map(hairIds => hairIds.uuid);
+    
     try {
+        await Keywords.destroy({
+            where: {
+                hairId: {
+                    [Op.in]: hairIds,
+                },
+            },
+        });
+        await Bookmarks.destroy({
+            where: {
+                ownerId: user.uuid
+            }
+        });
+        await Comments.destroy({
+            where: {
+                ownerId: user.uuid
+            }
+        });
+        await Reaction.destroy({
+            where:{
+                ownerId: user.uuid
+            }
+        });
+        await HairStyle.destroy({
+            where: {
+                designerId: user.uuid,
+            }
+        });
         await Users.destroy({
             where: {
-                id: user.id,
+                uuid: user.uuid,
             },
         });
         res.status(200).json({ msg: "Delete user successfully" });
@@ -134,7 +175,7 @@ export const deleteUser = async(req, res) => {
     }
 };
 
-export const updateVerified = async(req, res) => {
+export const updateVerified = async (req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -157,7 +198,7 @@ export const updateVerified = async(req, res) => {
     }
 };
 
-export const UpdateProfileImg = async(req, res) => {
+export const UpdateProfileImg = async (req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -180,7 +221,7 @@ export const UpdateProfileImg = async(req, res) => {
     }
 };
 
-export const UpdateLicenseImg = async(req, res) => {
+export const UpdateLicenseImg = async (req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -202,7 +243,7 @@ export const UpdateLicenseImg = async(req, res) => {
         console.log(error.message);
     }
 };
-export const UpdateIntroduce = async(req, res) => {
+export const UpdateIntroduce = async (req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,

@@ -10,6 +10,7 @@ import BookMarksRoute from "./routes/BookMarksRoute.js"
 import CommentRoute from "./routes/CommentRoute.js";
 import HairStyleRoute from "./routes/HairStyleRoute.js";
 import KeywordRoute from "./routes/KeywordRoute.js";
+import ReactionRoute from "./routes/ReactionRoute.js";
 import UserRoute from "./routes/UserRoute.js";
 
 import db from "./config/Database.js";
@@ -48,8 +49,9 @@ app.use(BookMarksRoute);
 app.use(CommentRoute);
 app.use(HairStyleRoute);
 app.use(KeywordRoute);
+app.use(ReactionRoute);
 app.use(UserRoute);
-// store.sync();
+store.sync();
 
 app.listen(process.env.APP_PORT, () => {
     console.log('Server up and running..');
