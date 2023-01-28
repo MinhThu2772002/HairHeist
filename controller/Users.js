@@ -4,11 +4,12 @@ import Keywords from "../models/KeyworkModel.js";
 import Bookmarks from "../models/BookmarksModel.js";
 import Comments from "../models/CommentModel.js";
 import Reaction from "../models/ReactionModel.js";
-import argon2 from "argon2";
+const saltRounds = 10;
+import bcrypt from "bcryptjs";
 import { Op } from "sequelize"
 import path from "path";
 import fs from "fs";
-export const getUsers = async (req, res) => {
+export const getUsers = async(req, res) => {
     try {
         const response = await Users.findAll({
             attributes: ["uuid", "name", "email", "role"],
@@ -19,7 +20,7 @@ export const getUsers = async (req, res) => {
     }
 };
 
-export const getUserById = async (req, res) => {
+export const getUserById = async(req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.params.id,
@@ -60,7 +61,7 @@ export const getUserById = async (req, res) => {
 
 };
 
-export const createUser = async (req, res) => {
+export const createUser = async(req, res) => {
 
     const { name, email, password, confPassword, role } = req.body;
     const user = await Users.findOne({
@@ -73,7 +74,7 @@ export const createUser = async (req, res) => {
         return res
             .status(400)
             .json({ msg: "Confirm password differ from password " });
-    const hashPassword = await argon2.hash(password);
+    const hashPassword = await bcrypt.hashSync(password, saltRounds);
     try {
         await Users.create({
             name: name,
@@ -86,7 +87,7 @@ export const createUser = async (req, res) => {
         res.status(400).json({ msg: error.message });
     }
 };
-export const updateUser = async (req, res) => {
+export const updateUser = async(req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -98,7 +99,7 @@ export const updateUser = async (req, res) => {
     if (password === "" || password === null) {
         hashPassword = user.password;
     } else {
-        hashPassword = await argon2.hash(password);
+        hashPassword = await bcrypt.hashSync(password, saltRounds);
     }
     if (password !== confPassword)
         return res
@@ -121,7 +122,7 @@ export const updateUser = async (req, res) => {
     }
 };
 
-export const deleteUser = async (req, res) => {
+export const deleteUser = async(req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId
@@ -135,7 +136,7 @@ export const deleteUser = async (req, res) => {
         }
     });
     const hairIds = HairStylei.map(hairIds => hairIds.uuid);
-    
+
     try {
         await Keywords.destroy({
             where: {
@@ -155,7 +156,7 @@ export const deleteUser = async (req, res) => {
             }
         });
         await Reaction.destroy({
-            where:{
+            where: {
                 ownerId: user.uuid
             }
         });
@@ -175,7 +176,7 @@ export const deleteUser = async (req, res) => {
     }
 };
 
-export const updateVerified = async (req, res) => {
+export const updateVerified = async(req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -198,7 +199,7 @@ export const updateVerified = async (req, res) => {
     }
 };
 
-export const UpdateProfileImg = async (req, res) => {
+export const UpdateProfileImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -221,7 +222,7 @@ export const UpdateProfileImg = async (req, res) => {
     }
 };
 
-export const UpdateLicenseImg = async (req, res) => {
+export const UpdateLicenseImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,
@@ -243,7 +244,7 @@ export const UpdateLicenseImg = async (req, res) => {
         console.log(error.message);
     }
 };
-export const UpdateIntroduce = async (req, res) => {
+export const UpdateIntroduce = async(req, res) => {
     const user = await Users.findOne({
         where: {
             uuid: req.session.userId,

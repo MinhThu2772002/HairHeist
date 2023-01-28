@@ -90,7 +90,7 @@ const HairStyle = db.define(
     }
 );
 
-Users.hasMany(HairStyle, { foreignKey: 'designerId', sourceKey: "uuid", constraints: false });
+Users.hasMany(HairStyle, { foreignKey: 'designerId', sourceKey: "uuid", constraints: false }, { onDelete: 'CASCADE', });
 HairStyle.belongsTo(Users, { foreignKey: 'designerId', targetKey: "uuid", constraints: false });
 
 //Users.hasOne(HairStyle, { foreignKey: 'modelId', sourceKey: "uuid", constraints: false });

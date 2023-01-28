@@ -1,7 +1,7 @@
 import Users from "../models/UsersModel.js";
 import HairStyle from "../models/HairStyleModel.js";
 import Bookmarks from "../models/BookmarksModel.js";
-import argon2 from "argon2";
+
 import path from "path";
 import fs from "fs";
 

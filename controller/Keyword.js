@@ -1,6 +1,6 @@
 import HairStyle from "../models/HairStyleModel.js";
 import Keywords from "../models/KeyworkModel.js";
-import argon2 from "argon2";
+
 import path from "path";
 import fs from "fs";
 
