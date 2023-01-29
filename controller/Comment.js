@@ -29,7 +29,7 @@ export const createComment = async(req, res) => {
     });
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
     });
     if (hairCid) {
@@ -52,7 +52,7 @@ export const deleteComment = async(req, res) => {
     const { message } = req.body;
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
     });
     const comments = await Comments.findOne({

@@ -90,7 +90,7 @@ export const createUser = async(req, res) => {
 export const updateUser = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
     });
     if (!user) return res.status(404).json({ msg: "User is not exist" });
@@ -125,7 +125,7 @@ export const updateUser = async(req, res) => {
 export const deleteUser = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId
+            uuid: req.boby.uuid
         }
     });
     if (!user) return res.status(404).json({ msg: "User isn't exist" });
@@ -179,7 +179,7 @@ export const deleteUser = async(req, res) => {
 export const updateVerified = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
     });
     if (!user) return res.status(404).json({ msg: "User is not exist" });
@@ -202,7 +202,7 @@ export const updateVerified = async(req, res) => {
 export const UpdateProfileImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
 
     });
@@ -225,7 +225,7 @@ export const UpdateProfileImg = async(req, res) => {
 export const UpdateLicenseImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
 
     });
@@ -247,7 +247,7 @@ export const UpdateLicenseImg = async(req, res) => {
 export const UpdateIntroduce = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
 
     });

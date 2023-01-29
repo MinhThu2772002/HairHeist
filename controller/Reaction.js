@@ -8,7 +8,7 @@ export const LikeOrDislike = async (req, res) => {
         const Reactioni = await Reaction.findOne({
             where: {
                 targetId: req.params.id,
-                ownerId: req.session.userId,
+                ownerId: req.boby.uuid,
             }
         });
         if (!Reactioni) {
@@ -31,7 +31,7 @@ export const LikeOrDislike = async (req, res) => {
                 }
                 const responses = await HairStylei.save();
                 await Reaction.create({
-                    ownerId: req.session.userId,
+                    ownerId: req.boby.uuid,
                     targetId: req.params.id,
                     reaction: req.body.react,
                 });
@@ -46,7 +46,7 @@ export const LikeOrDislike = async (req, res) => {
                 }
                 const responses = await Commenti.save();
                 await Reaction.create({
-                    ownerId: req.session.userId,
+                    ownerId: req.boby.uuid,
                     targetId: req.params.id,
                     reaction: req.body.react,
                 });
@@ -72,7 +72,7 @@ export const LikeOrDislike = async (req, res) => {
                     HairStylei.like = HairStylei.like - 1;
                     await Reaction.destroy({
                         where:{
-                            ownerId: req.session.userId,
+                            ownerId: req.boby.uuid,
                             targetId: req.params.id,
                         }
                     });
@@ -81,7 +81,7 @@ export const LikeOrDislike = async (req, res) => {
                     HairStylei.dislike = HairStylei.dislike - 1;
                     await Reaction.destroy({
                         where:{
-                            ownerId: req.session.userId,
+                            ownerId: req.boby.uuid,
                             targetId: req.params.id,
                         }
                     });
@@ -94,7 +94,7 @@ export const LikeOrDislike = async (req, res) => {
                     Commenti.like = Commenti.like - 1;
                     await Reaction.destroy({
                         where:{
-                            ownerId: req.session.userId,
+                            ownerId: req.boby.uuid,
                             targetId: req.params.id,
                         }
                     });
@@ -103,7 +103,7 @@ export const LikeOrDislike = async (req, res) => {
                     Commenti.dislike = Commenti.dislike - 1;
                     await Reaction.destroy({
                         where:{
-                            ownerId: req.session.userId,
+                            ownerId: req.boby.uuid,
                             targetId: req.params.id,
                         }
                     });

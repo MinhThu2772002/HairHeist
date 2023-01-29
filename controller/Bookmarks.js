@@ -8,7 +8,7 @@ import fs from "fs";
 export const createBookmarks = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId,
+            uuid: req.boby.uuid,
         }
     });
     const bookmark = await Bookmarks.findOne({
@@ -35,7 +35,7 @@ export const createBookmarks = async(req, res) => {
 export const deleteBookmarks = async(req, res) => {
     const bookmark = await Bookmarks.findOne({
         where: {
-            ownerId: req.session.userId,
+            ownerId: req.boby.uuid,
             hairId: req.params.id,
         }
     });
@@ -43,7 +43,7 @@ export const deleteBookmarks = async(req, res) => {
     try {
         await Bookmarks.destroy({
             where: {
-                ownerId: req.session.userId,
+                ownerId: req.boby.uuid,
                 hairId: req.params.id,
             },
         });
