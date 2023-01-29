@@ -9,15 +9,14 @@ import {
 } from "../controller/HairStyles.js"
 import {
     verifyUser,
-    designerOnly
 } from "../middleware/AuthUser.js";
 const router = express.Router();
 
-router.get('/hairstyle', verifyUser, getHairStyles);
-router.get('/hairstyle/:id', verifyUser, getHairStyleById);
-router.post('/hairstylebykey', verifyUser, getHairStyleByKeyword);
-router.post('/hairstyle', verifyUser, designerOnly, saveHairStyle);
-router.patch('/hairstyle/:id', verifyUser, designerOnly, updateHairStyle);
-router.delete('/hairstyle/:id', verifyUser, designerOnly, deleteHairStyle);
+router.get('/hairstyle', getHairStyles);
+router.get('/hairstyle/:id', getHairStyleById);
+router.post('/hairstylebykey', getHairStyleByKeyword);
+router.post('/hairstyle', verifyUser, saveHairStyle);
+router.patch('/hairstyle/:id', verifyUser, updateHairStyle);
+router.delete('/hairstyle/:id', verifyUser, deleteHairStyle);
 
 export default router;
