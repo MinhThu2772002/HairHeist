@@ -9,8 +9,8 @@ import {
 } from "../middleware/AuthUser.js";
 const router = express.Router();
 
-router.get('/comments/:id', verifyUser, getCommentById);
-router.post('/comments/:id', verifyUser, createComment);
-router.delete('/deletecomments/:id', verifyUser, deleteComment);
+router.get('/comments/:id', getCommentById);
+router.post('/comments/:id', createComment);
+router.delete('/deletecomments/:id', deleteComment);
 
 export default router;

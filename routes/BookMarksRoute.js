@@ -10,7 +10,7 @@ import {
 } from "../middleware/AuthUser.js";
 const router = express.Router();
 
-router.post('/bookmark/:id', verifyUser, createBookmarks);
-router.delete('/bookmark/:id', verifyUser, deleteBookmarks);
+router.post('/bookmark/:id', createBookmarks);
+router.delete('/bookmark/:id', deleteBookmarks);
 
 export default router;
