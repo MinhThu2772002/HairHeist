@@ -84,6 +84,15 @@ const HairStyle = db.define(
                 notEmpty: true
             }
         },
+        Description: {
+            type: DataTypes.STRING,
+
+            allowNull: true,
+            validate: {
+                notEmpty: true,
+            },
+        },
+
 
     }, {
         freezeTableName: true,

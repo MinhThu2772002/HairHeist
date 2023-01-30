@@ -7,7 +7,7 @@ import Reaction from "../models/ReactionModel.js";
 import path from "path";
 import fs from "fs";
 import { Op } from "sequelize"
-export const getHairStyles = async (req, res) => {
+export const getHairStyles = async(req, res) => {
     try {
 
         const responses = await HairStyle.findAll({
@@ -25,7 +25,7 @@ export const getHairStyles = async (req, res) => {
     }
 }
 
-export const getHairStyleById = async (req, res) => {
+export const getHairStyleById = async(req, res) => {
     try {
         const response = await HairStyle.findOne({
             attributes: ["uuid", "name", "url1", "url2", "url3", "url4", "designerId", "modelId"],
@@ -43,7 +43,7 @@ export const getHairStyleById = async (req, res) => {
     }
 }
 
-export const getHairStyleByKeyword = async (req, res) => {
+export const getHairStyleByKeyword = async(req, res) => {
     const { keys = '' } = req.body;
     if (!keys) {
         return res.status(200).json({ msg: "No keywords found !" });
@@ -78,14 +78,14 @@ export const getHairStyleByKeyword = async (req, res) => {
     }
 };
 
-export const saveHairStyle = async (req, res) => {
+export const saveHairStyle = async(req, res) => {
     const user = await Users.findOne({
         attributes: ["uuid"],
         where: {
             id: req.userId
         }
     });
-    const { name, url1, url2, url3, url4, modelId } = req.body;
+    const { name, url1, url2, url3, url4, modelId, descriptions } = req.body;
     if (!url1) return res.status(404).json({ msg: "Need at least one image for new HairStyle" });
     try {
         await HairStyle.create({
@@ -96,6 +96,7 @@ export const saveHairStyle = async (req, res) => {
             url4: url4,
             designerId: user.uuid,
             modelId: modelId,
+            Description: descriptions
 
         });
         res.status(201).json({ msg: "Create HairStyle successfully" });
@@ -106,7 +107,7 @@ export const saveHairStyle = async (req, res) => {
 
 }
 
-export const updateHairStyle = async (req, res) => {
+export const updateHairStyle = async(req, res) => {
     const HairStylei = await HairStyle.findOne({
         where: {
             uuid: req.params.id
@@ -115,7 +116,7 @@ export const updateHairStyle = async (req, res) => {
     if (!HairStylei) return res.status(404).json({ msg: "No Data Found" });
 
 
-    const { name, url_1, url_2, url_3, url_4, modelId } = req.body;
+    const { name, url_1, url_2, url_3, url_4, modelId, descriptions } = req.body;
     if (url_1 === null) {
         url_1 = HairStylei.url1;
     }
@@ -126,7 +127,8 @@ export const updateHairStyle = async (req, res) => {
             url2: url_2,
             url3: url_3,
             url4: url_4,
-            modelId: modelId
+            modelId: modelId,
+            Description: descriptions
 
         }, {
             where: {
@@ -139,7 +141,7 @@ export const updateHairStyle = async (req, res) => {
     }
 }
 
-export const deleteHairStyle = async (req, res) => {
+export const deleteHairStyle = async(req, res) => {
     const HairStylei = await HairStyle.findOne({
         where: {
             uuid: req.params.id
@@ -159,7 +161,7 @@ export const deleteHairStyle = async (req, res) => {
             }
         });
         await Reaction.destroy({
-            where:{
+            where: {
                 targetId: req.params.id
             }
         });

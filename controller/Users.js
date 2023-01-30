@@ -7,8 +7,7 @@ import Reaction from "../models/ReactionModel.js";
 const saltRounds = 10;
 import bcrypt from "bcryptjs";
 import { Op } from "sequelize"
-import path from "path";
-import fs from "fs";
+
 export const getUsers = async(req, res) => {
     try {
         const response = await Users.findAll({
@@ -63,17 +62,14 @@ export const getUserById = async(req, res) => {
 
 export const createUser = async(req, res) => {
 
-    const { name, email, password, confPassword, role } = req.body;
+    const { name, email, password, role, uid } = req.body;
     const user = await Users.findOne({
         where: {
             email: email,
         }
     });
     if (user) return res.status(404).json({ msg: "User has already exist!!" });
-    if (password !== confPassword)
-        return res
-            .status(400)
-            .json({ msg: "Confirm password differ from password " });
+
     const hashPassword = await bcrypt.hashSync(password, saltRounds);
     try {
         await Users.create({
@@ -81,6 +77,7 @@ export const createUser = async(req, res) => {
             email: email,
             password: hashPassword,
             role: role,
+            uuid: uid
         });
         res.status(201).json({ msg: "Register Successfully" });
     } catch (error) {
@@ -90,21 +87,20 @@ export const createUser = async(req, res) => {
 export const updateUser = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.body.userId,
+
+            uuid: req.boby.uid,
+
         }
     });
     if (!user) return res.status(404).json({ msg: "User is not exist" });
-    const { name, email, password, confPassword, role } = req.body;
+    const { name, email, password, role } = req.body;
     let hashPassword;
     if (password === "" || password === null) {
         hashPassword = user.password;
     } else {
         hashPassword = await bcrypt.hashSync(password, saltRounds);
     }
-    if (password !== confPassword)
-        return res
-            .status(400)
-            .json({ msg: "Confirm password differ from password  " });
+
     try {
         await Users.update({
             name: name,
@@ -125,7 +121,7 @@ export const updateUser = async(req, res) => {
 export const deleteUser = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.body.userId
+            uuid: req.body.uid
         }
     });
     if (!user) return res.status(404).json({ msg: "User isn't exist" });
@@ -179,7 +175,8 @@ export const deleteUser = async(req, res) => {
 export const updateVerified = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.body.userId,
+            uuid: req.body.uid
+
         }
     });
     if (!user) return res.status(404).json({ msg: "User is not exist" });
@@ -202,7 +199,8 @@ export const updateVerified = async(req, res) => {
 export const UpdateProfileImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.body.userId,
+            uuid: req.boby.uid,
+
         }
 
     });
@@ -225,7 +223,9 @@ export const UpdateProfileImg = async(req, res) => {
 export const UpdateLicenseImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.body.userId,
+
+            uuid: req.boby.uid,
+
         }
 
     });
@@ -247,7 +247,8 @@ export const UpdateLicenseImg = async(req, res) => {
 export const UpdateIntroduce = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.body.userId,
+            uuid: req.body.uid
+
         }
 
     });

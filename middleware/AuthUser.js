@@ -1,12 +1,12 @@
 import Users from "../models/UsersModel.js";
 export const verifyUser = async(req, res, next) => {
-    if (!req.session.userId) {
+    if (!req.body.uid) {
         return res.status(401).json({ msg: "Please log in first" });
 
     }
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId
+            uuid: req.body.uid
         }
     });
     if (!user) return res.status(404).json({ msg: "User not exist" });
@@ -18,7 +18,7 @@ export const designerOnly = async(req, res, next) => {
 
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId
+            uuid: req.body.uid
         }
     });
     if (!user) return res.status(404).json({ msg: "User not exist" });
@@ -29,7 +29,7 @@ export const UserOnly = async(req, res, next) => {
 
     const user = await Users.findOne({
         where: {
-            uuid: req.session.userId
+            uuid: req.body.uid
         }
     });
     if (!user) return res.status(404).json({ msg: "User not exist" });

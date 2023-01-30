@@ -13,7 +13,7 @@ export const Login = async(req, res) => {
     if (!user) return res.status(404).json({ msg: "User doesn't exist" });
     const match = await bcrypt.compare(req.body.password, user.password);
     if (!match) return res.status(400).json({ msg: "Wrong password" });
-    req.session.userId = user.uuid;
+
     const uuid = user.uuid;
     const name = user.name;
     const email = user.email;
@@ -22,14 +22,14 @@ export const Login = async(req, res) => {
 
 }
 export const Me = async(req, res) => {
-    if (!req.session.userId) {
+    if (!req.body.uid) {
         return res.status(401).json({ msg: "Login first !" });
 
     }
     const temp_user = await Users.findOne({
         attributes: ['uuid', 'name', 'email', 'role', 'profileImgUrl', ],
         where: {
-            uuid: req.session.userId
+            uuid: req.body.uid
         },
         include: [{
             model: HairStyle,
@@ -40,7 +40,7 @@ export const Me = async(req, res) => {
         const user = await Users.findOne({
             attributes: ['uuid', 'name', 'email', 'role', 'profileImgUrl', "isVerified", "licenseImgUrl", "Introduce"],
             where: {
-                uuid: req.session.userId
+                uuid: req.body.uid
             },
             include: [{
                 model: HairStyle,
@@ -54,7 +54,7 @@ export const Me = async(req, res) => {
     const user = await Users.findOne({
         attributes: ['uuid', 'name', 'email', 'role', 'profileImgUrl', ],
         where: {
-            uuid: req.session.userId
+            uuid: req.body.uid
         },
         include: [{
             model: Bookmarks,
@@ -72,6 +72,7 @@ export const Me = async(req, res) => {
 
 
 }
+
 
 /*export const logOut = (req, res) => {
     req.session.destroy((err) => {

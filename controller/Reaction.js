@@ -8,7 +8,9 @@ export const LikeOrDislike = async(req, res) => {
         const Reactioni = await Reaction.findOne({
             where: {
                 targetId: req.params.id,
-                ownerId: req.body.userId,
+
+                ownerId: req.boby.uid,
+
             }
         });
         if (!Reactioni) {
@@ -30,7 +32,9 @@ export const LikeOrDislike = async(req, res) => {
                 }
                 const responses = await HairStylei.save();
                 await Reaction.create({
-                    ownerId: req.body.userId,
+
+                    ownerId: req.body.uid,
+
                     targetId: req.params.id,
                     reaction: req.body.react,
                 });
@@ -43,7 +47,7 @@ export const LikeOrDislike = async(req, res) => {
                 }
                 const responses = await Commenti.save();
                 await Reaction.create({
-                    ownerId: req.body.userId,
+                    ownerId: req.body.uid,
                     targetId: req.params.id,
                     reaction: req.body.react,
                 });
@@ -66,8 +70,10 @@ export const LikeOrDislike = async(req, res) => {
                 if (req.body.react === Reactioni.reaction && Reactioni.reaction === "like") {
                     HairStylei.like = HairStylei.like - 1;
                     await Reaction.destroy({
+
                         where: {
-                            ownerId: req.body.userId,
+                            ownerId: req.body.uid,
+
                             targetId: req.params.id,
                         }
                     });
@@ -75,7 +81,8 @@ export const LikeOrDislike = async(req, res) => {
                     HairStylei.dislike = HairStylei.dislike - 1;
                     await Reaction.destroy({
                         where: {
-                            ownerId: req.body.userId,
+                            ownerId: req.body.uid,
+
                             targetId: req.params.id,
                         }
                     });
@@ -87,7 +94,7 @@ export const LikeOrDislike = async(req, res) => {
                     Commenti.like = Commenti.like - 1;
                     await Reaction.destroy({
                         where: {
-                            ownerId: req.body.userId,
+                            ownerId: req.body.uid,
                             targetId: req.params.id,
                         }
                     });
@@ -95,7 +102,7 @@ export const LikeOrDislike = async(req, res) => {
                     Commenti.dislike = Commenti.dislike - 1;
                     await Reaction.destroy({
                         where: {
-                            ownerId: req.body.userId,
+                            ownerId: req.body.uid,
                             targetId: req.params.id,
                         }
                     });
