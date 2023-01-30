@@ -73,9 +73,10 @@ export const Me = async(req, res) => {
 
 }
 
-export const logOut = (req, res) => {
+/*export const logOut = (req, res) => {
     req.session.destroy((err) => {
         if (err) return res.status(400).json({ msg: "Can't log out" });
         res.status(200).json({ msg: "Log out successfully" });
     })
 }
+*/
