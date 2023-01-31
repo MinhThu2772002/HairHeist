@@ -3,13 +3,12 @@ import Comments from "../models/CommentModel.js";
 import Reaction from "../models/ReactionModel.js";
 
 export const LikeOrDislike = async(req, res) => {
-    const react = req.body;
+    const react = req.body.uid;
     try {
         const Reactioni = await Reaction.findOne({
             where: {
                 targetId: req.params.id,
-
-                ownerId: req.boby.uid,
+                ownerId: react,
 
             }
         });

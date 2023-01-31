@@ -88,7 +88,7 @@ export const updateUser = async(req, res) => {
     const user = await Users.findOne({
         where: {
 
-            uuid: req.boby.uid,
+            uuid: req.body.uid,
 
         }
     });
@@ -199,7 +199,7 @@ export const updateVerified = async(req, res) => {
 export const UpdateProfileImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
-            uuid: req.boby.uid,
+            uuid: req.body.uid,
 
         }
 
@@ -224,7 +224,7 @@ export const UpdateLicenseImg = async(req, res) => {
     const user = await Users.findOne({
         where: {
 
-            uuid: req.boby.uid,
+            uuid: req.body.uid,
 
         }
 

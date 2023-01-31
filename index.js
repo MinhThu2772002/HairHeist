@@ -21,21 +21,21 @@ const app = express();
 (async() => {
     await db.sync();
 })();
-const sessionStore = SequelizeStore(session.Store);
-const store = new sessionStore({
-    db: db
+// const sessionStore = SequelizeStore(session.Store);
+// const store = new sessionStore({
+//     db: db
 
-});
+// });
 
-app.use(session({
-    secret: process.env.SESS_SECRET,
-    resave: false,
-    saveUninitialized: true,
-    store: store,
-    cookie: {
-        secure: 'auto'
-    }
-}));
+// app.use(session({
+//     secret: process.env.SESS_SECRET,
+//     resave: false,
+//     saveUninitialized: true,
+//     store: store,
+//     cookie: {
+//         secure: 'auto'
+//     }
+// }));
 app.use(cors({
     credentials: true,
     origin: 'http://localhost:3000'
@@ -51,7 +51,7 @@ app.use(HairStyleRoute);
 app.use(KeywordRoute);
 app.use(ReactionRoute);
 app.use(UserRoute);
-store.sync();
+// store.sync();
 
 app.listen(process.env.APP_PORT, () => {
     console.log('Server up and running..');
